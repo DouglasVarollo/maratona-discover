@@ -13,6 +13,18 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border-width: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .container {
   width: min(90vw, 800px);
   margin: 0 auto;
@@ -23,6 +35,20 @@ h2 {
   margin-bottom: 0.8rem;
   color: var(--dark-blue);
   font-weight: 400;
+}
+
+a {
+  display: inline-block;
+  color: #49aa26;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #3dd705;
+}
+
+.button.new {
+  margin-bottom: 0.8rem;
 }
 
 header {
@@ -54,6 +80,9 @@ header {
 }
 
 .card h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 1rem;
   font-weight: normal;
 }
@@ -110,6 +139,11 @@ td.income {
 table thead th:first-child,
 table tbody td:first-child {
   border-radius: 0.25rem 0 0 0.25rem;
+}
+
+table thead th:last-child,
+table tbody td:last-child {
+  border-radius: 0 0.25rem 0.25rem 0;
 }
 
 footer {
