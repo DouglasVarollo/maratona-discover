@@ -76,12 +76,13 @@ const DOM = {
 	addTransaction(transaction, index) {
 		const tr = document.createElement('tr');
 
-		tr.innerHTML = DOM.innerHTMLTransaction(transaction);
+		tr.innerHTML = DOM.innerHTMLTransaction(transaction, index);
+		tr.dataset.index = index;
 
 		DOM.transactionsContainer.appendChild(tr);
 	},
 
-	innerHTMLTransaction(transaction) {
+	innerHTMLTransaction(transaction, index) {
 		const CSSclass = transaction.amount > 0 ? 'income' : 'expense';
 		const amount = Utils.formatCurrency(transaction.amount);
 
@@ -89,7 +90,7 @@ const DOM = {
 			<td class="description">${transaction.description}</td>
 			<td class="${CSSclass}">${amount}</td>
 			<td class="date">${transaction.date}</td>
-			<td><img alt="Remover transação" src="assets/minus.svg" /></td>
+			<td><img alt="Remover transação" onclick="Transaction.remove(${index})" src="assets/minus.svg" /></td>
 		`;
 
 		return html;
@@ -141,9 +142,7 @@ const Utils = {
 
 const App = {
 	init() {
-		Transaction.all.forEach(function (transaction) {
-			DOM.addTransaction(transaction);
-		});
+		Transaction.all.forEach(DOM.addTransaction);
 
 		DOM.updateBalance();
 	},
