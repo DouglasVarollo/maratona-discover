@@ -37,6 +37,13 @@ const transactions = [
 
 const Transaction = {
 	all: transactions,
+
+	add(transaction) {
+		Transaction.all.push(transaction);
+
+		App.reload();
+	},
+
 	incomes() {
 		let income = 0;
 
@@ -48,6 +55,7 @@ const Transaction = {
 
 		return income;
 	},
+
 	expenses() {
 		let expense = 0;
 
@@ -59,6 +67,7 @@ const Transaction = {
 
 		return expense;
 	},
+
 	total() {
 		return Transaction.incomes() + Transaction.expenses();
 	}
@@ -73,6 +82,7 @@ const DOM = {
 
 		DOM.transactionsContainer.appendChild(tr);
 	},
+
 	innerHTMLTransaction(transaction) {
 		const CSSclass = transaction.amount > 0 ? 'income' : 'expense';
 		const amount = Utils.formatCurrency(transaction.amount);
@@ -86,6 +96,7 @@ const DOM = {
 
 		return html;
 	},
+
 	updateBalance() {
 		document.getElementById('incomeDisplay').innerHTML = Utils.formatCurrency(
 			Transaction.incomes()
@@ -96,6 +107,10 @@ const DOM = {
 		document.getElementById('totalDisplay').innerHTML = Utils.formatCurrency(
 			Transaction.total()
 		);
+	},
+
+	clearTransactions() {
+		DOM.transactionsContainer.innerHTML = '';
 	}
 };
 
@@ -114,8 +129,26 @@ const Utils = {
 	}
 };
 
-transactions.forEach(function (transaction) {
-	DOM.addTransaction(transaction);
-});
+const App = {
+	init() {
+		Transaction.all.forEach(function (transaction) {
+			DOM.addTransaction(transaction);
+		});
 
-DOM.updateBalance();
+		DOM.updateBalance();
+	},
+
+	reload() {
+		DOM.clearTransactions();
+		App.init();
+	}
+};
+
+App.init();
+
+Transaction.add({
+	id: 5,
+	description: 'Ala',
+	amount: 200,
+	date: '23/01/2021'
+});
